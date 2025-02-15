@@ -1,16 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from './config/db.js';
+import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config(); 
 
 const app = express();
+const PORT = process.env.PORT || 800;
+app.use(express.json()); 
+ // allow us accept json data in the req body
 
-app.get("/products", (req,res) => {});
+app.use("/api/products",productRoutes);
 
-// console.log(process.env.MONGO_URL);
-
-app.listen(800, () => {
+app.listen(PORT, () => {
     connectDB();
-    console.log("server started at http://localhost:800");
+    console.log("server is started at " + PORT);
 });
