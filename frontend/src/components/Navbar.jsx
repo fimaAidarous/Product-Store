@@ -8,7 +8,7 @@ import { useColorMode } from '../components/useColorMode';
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-
+   
   return (
     <Box
       display="flex"
