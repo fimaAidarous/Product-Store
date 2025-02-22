@@ -29,6 +29,19 @@ export const useProductStore = create((set) => ({
     }
   },
 
+  products: [],
+  favorites: [], 
+
+  setProducts: (products) => set({ products }),
+
+  toggleFavorite: (pid) => set((state) => {
+    const isFavorite = state.favorites.includes(pid);
+    const updatedFavorites = isFavorite
+      ? state.favorites.filter((id) => id !== pid) 
+      : [...state.favorites, pid]; 
+    return { favorites: updatedFavorites };
+  }),
+
   fetchProducts: async () => {
     try {
       const res = await fetch("/api/products");
@@ -58,24 +71,35 @@ export const useProductStore = create((set) => ({
   },
 
   updateProduct: async (pid, updatedProduct) => {
+    set(produce((state) => {
+      const index = state.products.findIndex((product) => product._id === pid);
+      if (index !== -1) {
+        state.products[index] = { ...state.products[index], ...updatedProduct };
+      }
+    }));
+  
     try {
       const res = await fetch(`/api/products/${pid}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct),
       });
-
+  
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to update product.");
 
       set(produce((state) => {
         const index = state.products.findIndex((product) => product._id === pid);
-        if (index !== -1) state.products[index] = data.data;
+        if (index !== -1) {
+          state.products[index] = { ...state.products[index], ...data.data };
+        }
       }));
-
+  
       return { success: true, message: "Product updated successfully" };
     } catch (error) {
       return { success: false, message: error.message };
     }
   },
+  
+  
 }));

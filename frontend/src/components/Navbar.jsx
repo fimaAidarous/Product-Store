@@ -1,14 +1,9 @@
 import React from "react";
 import { Container, Typography, Box, Stack, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import AddBoxIcon from "@mui/icons-material/AddBox"; 
-import { IoMoon } from "react-icons/io5"; 
-import { LuSun } from "react-icons/lu";
-import { useColorMode } from '../components/useColorMode';
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const Navbar = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-   
   return (
     <Box
       display="flex"
@@ -20,10 +15,10 @@ const Navbar = () => {
         sm: "row",
       }}
       sx={{
-        background: "linear-gradient(90deg,#1e3c72, #2a5298)", 
-        width: "100%", 
-        px: 4, 
-        transition: "background 0.3s", 
+        background: "linear-gradient(90deg,#1e3c72, #2a5298)",
+        width: "100%",
+        px: 4,
+        transition: "background 0.3s",
       }}
     >
       <Container maxWidth="lg" sx={{ px: 0 }}>
@@ -34,13 +29,13 @@ const Navbar = () => {
             textTransform="uppercase"
             textAlign="center"
             sx={{
-              background: "linear-gradient(90deg, cyan, white)", 
-              WebkitBackgroundClip: "text", 
-              color: "transparent", 
+              background: "linear-gradient(90deg, cyan, white)",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
               flex: 1,
             }}
           >
-            <Link to="/" style={{ textDecoration: "none", color: "inherit"}}>
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
               Product Store 🛒
             </Link>
           </Typography>
@@ -51,23 +46,6 @@ const Navbar = () => {
                 <AddBoxIcon fontSize="small" />
               </Button>
             </Link>
-            <Button 
-              onClick={toggleColorMode} 
-              variant="outlined" 
-              sx={{
-                color: colorMode === "light" ? "black" : "white", 
-                borderColor: colorMode === "light" ? "black" : "white", 
-                "&:hover": {
-                  borderColor: colorMode === "light" ? "black" : "white", 
-                },
-              }}
-            >
-              {colorMode === "light" ? (
-                <IoMoon sx={{ fontSize: 20 }} />
-              ) : (
-                <LuSun sx={{ fontSize: 20 }} />
-              )}
-            </Button>
           </Stack>
         </Box>
       </Container>
