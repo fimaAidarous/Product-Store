@@ -1,29 +1,45 @@
 import express from "express";
+import mongoose from 'mongoose';
 import dotenv from "dotenv";
-import path from "path";
-
-import { connectDB } from './config/db.js';
 import productRoutes from "./routes/productRoutes.js";
+import path from "path";
 
 dotenv.config(); 
 
-const app = express();
-const PORT = process.env.PORT || 800;
+mongoose.connect(process.env.MONGO_URL)
+.then(() => {
+    console.log('Connected to MONGODB');
+})
+.catch((err) => {
+    console.log(err);
+});
 
 const __dirname = path.resolve();
 
+const app = express();
+
+
 app.use(express.json()); 
+
+app.listen(800, () => {
+    console.log('Server is running on port 800');
+} 
+);
+
 app.use("/api/products",productRoutes);
 
-if(process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "frontend/dist")));
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
-    app.get("*", (req,res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-    })
-}
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  });
 
-app.listen(PORT, () => {
-    connectDB();
-    console.log("server is started at " + PORT);
+app.use(( err,req,res,next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'internal Server Error';
+    return res.status(statusCode).json ({
+        success: false,
+        statusCode,
+        message,
+    });
 });

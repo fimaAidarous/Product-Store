@@ -4,9 +4,9 @@
   "description": "��#\u0000 \u0000P\u0000r\u0000o\u0000d\u0000u\u0000c\u0000t\u0000-\u0000S\u0000t\u0000o\u0000r\u0000e\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=developent  nodemon backend/server.js",
+    "dev": "nodemon backend/server.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
-  "start": "set NODE_ENV=production&& node backend/server.js"
+  "start": "node backend/server.js"
   },
   "repository": {
     "type": "git",
