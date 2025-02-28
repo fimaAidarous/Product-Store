@@ -21,10 +21,10 @@ const app = express();
 
 app.use(express.json()); 
 
-app.listen(800, () => {
-    console.log('Server is running on port 800');
-} 
-);
+const PORT = process.env.PORT || 800;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 app.use("/api/products",productRoutes);
 
